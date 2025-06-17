@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sigma Drones - Advanced UAV Solutions</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Inter for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom CSS to override or add specific styles, ensuring Inter font is applied */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc; /* Light gray background */
+            color: #1e293b; /* Dark slate text */
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; /* Light track */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8; /* Gray thumb */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b; /* Darker gray on hover */
+        }
+
+        /* Hero section specific styles */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e0f2f7, #c5e1ee); /* Light blue gradient */
+            color: #1e293b;
+        }
+
+        #drone-animation-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Below text content */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2; /* Above drone animation */
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.7); /* Semi-transparent white background for readability */
+            border-radius: 1.5rem;
+            backdrop-filter: blur(10px); /* Blur effect */
+            animation: fadeInScale 1s ease-out forwards; /* Initial animation */
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Header specific styles for blur and shadow */
+        header {
+            background: rgba(255, 255, 255, 0.95); /* Slightly more opaque for clarity */
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Soft shadow */
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Animations for section visibility */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Counter animation styling */
+        .counter-box {
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .counter-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button hover effects */
+        .btn-primary {
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+        }
+        .btn-primary:hover {
+            background-color: #4338ca; /* Darker indigo */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+        }
+        .btn-secondary {
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(100, 116, 139, 0.2);
+        }
+        .btn-secondary:hover {
+            background-color: #475569; /* Darker slate */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(100, 116, 139, 0.3);
+        }
+
+        /* Feature/Service card animations */
+        .feature-card, .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover, .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Blog/News card styling */
+        .blog-card, .news-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .blog-card:hover, .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15);
+        }
+        .blog-card img, .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+        }
+        .blog-card-content, .news-card-content {
+            padding: 1.5rem;
+        }
+        .blog-card-content h3, .news-card-content h3 {
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: #1e293b;
+        }
+        .blog-card-content p, .news-card-content p {
+            font-size: 0.95rem;
+            color: #475569;
+            margin-bottom: 1rem;
+        }
+        .blog-card-content a, .news-card-content a {
+            color: #4f46e5;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+        }
+        .blog-card-content a:hover, .news-card-content a:hover {
+            color: #4338ca;
+            text-decoration: underline;
+        }
+
+        /* Drone SVG Animation */
+        .animated-drone-svg {
+            position: absolute;
+            opacity: 0.1; /* Very subtle */
+            animation: droneFloat 15s ease-in-out infinite;
+            pointer-events: none; /* Make sure it doesn't interfere with clicks */
+        }
+
+        .animated-drone-svg.top-left {
+            top: 5%;
+            left: 5%;
+            width: 120px;
+            transform: rotate(-15deg);
+        }
+        .animated-drone-svg.bottom-right {
+            bottom: 5%;
+            right: 5%;
+            width: 100px;
+            transform: rotate(25deg);
+            animation-delay: 2s; /* Stagger animation */
+        }
+        .animated-drone-svg.middle-center {
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            transform: translate(-50%, -50%) rotate(0deg);
+            animation: droneFloat 18s ease-in-out infinite alternate;
+            animation-delay: 4s;
+        }
+
+
+        @keyframes droneFloat {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-10px) translateX(10px) rotate(5deg); }
+            50% { transform: translateY(0) translateX(0) rotate(0deg); }
+            75% { transform: translateY(10px) translateX(-10px) rotate(-5deg); }
+            100% { transform: translateY(0) translateX(0) rotate(0deg); }
+        }
+
+        /* Darker sections */
+        .section-dark {
+            background-color: #1e293b; /* Dark slate */
+            color: #f1f5f9; /* Light text */
+        }
+        .section-dark h2, .section-dark h3 {
+            color: #e2e8f0; /* Lighter text for headings */
+        }
+        .section-dark p {
+            color: #94a3b8; /* Grayish text */
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 py-4 rounded-b-xl">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-indigo-700 tracking-tight flex items-center">
+                <i class="fas fa-drone text-3xl mr-2"></i> Sigma Drones
+            </a>
+            <nav>
+                <ul class="flex space-x-8">
+                    <li><a href="#home" class="text-slate-700 hover:text-indigo-600 font-medium transition-colors duration-300">Home</a></li>
+                    <li><a href="#features" class="text-slate-700 hover:text-indigo-600 font-medium transition-colors duration-300">Features</a></li>
+                    <li><a href="#services" class="text-slate-700 hover:text-indigo-600 font-medium transition-colors duration-300">Services</a></li>
+                    <li><a href="#blog" class="text-slate-700 hover:text-indigo-600 font-medium transition-colors duration-300">Blog</a></li>
+                    <li><a href="#news" class="text-slate-700 hover:text-indigo-600 font-medium transition-colors duration-300">News</a></li>
+                    <li><a href="#about" class="text-slate-700 hover:text-indigo-600 font-medium transition-colors duration-300">About</a></li>
+                    <li><a href="#contact" class="text-slate-700 hover:text-indigo-600 font-medium transition-colors duration-300">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <!-- Three.js Drone Animation Container -->
+        <div id="drone-animation-container"></div>
+
+        <div class="hero-content">
+            <h1 class="text-6xl font-extrabold mb-4 leading-tight text-indigo-800">
+                Revolutionizing Skies with <span class="text-indigo-600">Advanced UAVs</span>
+            </h1>
+            <p class="text-xl text-slate-700 mb-8 max-w-2xl mx-auto">
+                Explore the future of aerial technology with Sigma Drones – cutting-edge solutions for every need, from surveillance to delivery.
+            </p>
+            <div class="space-x-4">
+                <a href="#services" class="btn-primary bg-indigo-600 text-white px-8 py-3 rounded-full text-lg font-semibold inline-block">
+                    Explore Solutions
+                </a>
+                <a href="#contact" class="btn-secondary bg-slate-600 text-white px-8 py-3 rounded-full text-lg font-semibold inline-block">
+                    Get a Quote
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-white animate-on-scroll relative">
+        <!-- Subtle Animated Drone SVG -->
+        <svg class="animated-drone-svg top-left" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 0L60 30L100 20L70 50L100 80L60 70L50 100L40 70L0 80L30 50L0 20L40 30L50 0Z" fill="#a5b4fc"/>
+            <circle cx="50" cy="50" r="10" fill="#6366f1"/>
+            <rect x="48" y="10" width="4" height="20" rx="2" fill="#6366f1"/>
+            <rect x="48" y="70" width="4" height="20" rx="2" fill="#6366f1"/>
+            <rect x="10" y="48" width="20" height="4" rx="2" fill="#6366f1"/>
+            <rect x="70" y="48" width="20" height="4" rx="2" fill="#6366f1"/>
+        </svg>
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-6 text-slate-800">Unleash the Power of Innovation</h2>
+            <p class="text-xl text-slate-600 mb-16 max-w-3xl mx-auto">
+                Our drones are built with precision engineering and advanced AI, delivering unparalleled performance and reliability.
+            </p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Feature 1 -->
+                <div class="feature-card bg-slate-50 p-8 rounded-2xl shadow-lg flex flex-col items-center">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-microchip"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">AI-Powered Autonomy</h3>
+                    <p class="text-slate-600 text-center">
+                        Intelligent flight systems for autonomous navigation, obstacle avoidance, and optimal route planning.
+                    </p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="feature-card bg-slate-50 p-8 rounded-2xl shadow-lg flex flex-col items-center">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-battery-full"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">Extended Flight Time</h3>
+                    <p class="text-slate-600 text-center">
+                        Advanced battery technology ensures longer missions and reduced downtime.
+                    </p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="feature-card bg-slate-50 p-8 rounded-2xl shadow-lg flex flex-col items-center">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-camera-retro"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">High-Resolution Imaging</h3>
+                    <p class="text-slate-600 text-center">
+                        Capture stunning 4K video and high-fidelity images with our integrated camera systems.
+                    </p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="feature-card bg-slate-50 p-8 rounded-2xl shadow-lg flex flex-col items-center">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-lock"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">Enhanced Security</h3>
+                    <p class="text-slate-600 text-center">
+                        Encrypted communications and secure data transfer protocols for peace of mind.
+                    </p>
+                </div>
+                <!-- Feature 5 -->
+                <div class="feature-card bg-slate-50 p-8 rounded-2xl shadow-lg flex flex-col items-center">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-cloud"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">Cloud Integration</h3>
+                    <p class="text-slate-600 text-center">
+                        Seamlessly upload, process, and analyze data in the cloud with our platforms.
+                    </p>
+                </div>
+                <!-- Feature 6 -->
+                <div class="feature-card bg-slate-50 p-8 rounded-2xl shadow-lg flex flex-col items-center">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-cogs"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">Modular Design</h3>
+                    <p class="text-slate-600 text-center">
+                        Adaptable payloads and customizable components for diverse operational requirements.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-slate-100 animate-on-scroll">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-6 text-slate-800">Our Comprehensive Drone Services</h2>
+            <p class="text-xl text-slate-600 mb-16 max-w-3xl mx-auto">
+                We offer a wide range of drone-based services tailored to meet the demands of various industries.
+            </p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Service 1 -->
+                <div class="service-card bg-white p-8 rounded-2xl shadow-lg flex flex-col items-center transition-transform hover:scale-105 duration-300">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-eye"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">Aerial Surveillance</h3>
+                    <p class="text-slate-600 text-center">
+                        High-definition monitoring for security, infrastructure inspection, and border patrol.
+                    </p>
+                </div>
+                <!-- Service 2 -->
+                <div class="service-card bg-white p-8 rounded-2xl shadow-lg flex flex-col items-center transition-transform hover:scale-105 duration-300">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-seedling"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">Precision Agriculture</h3>
+                    <p class="text-slate-600 text-center">
+                        Crop health monitoring, irrigation analysis, and precise pesticide application.
+                    </p>
+                </div>
+                <!-- Service 3 -->
+                <div class="service-card bg-white p-8 rounded-2xl shadow-lg flex flex-col items-center transition-transform hover:scale-105 duration-300">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-truck-loading"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">Logistics & Delivery</h3>
+                    <p class="text-slate-600 text-center">
+                        Rapid and efficient delivery of goods in urban and remote areas.
+                    </p>
+                </div>
+                <!-- Service 4 -->
+                <div class="service-card bg-white p-8 rounded-2xl shadow-lg flex flex-col items-center transition-transform hover:scale-105 duration-300">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-fire-extinguisher"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">Emergency Response</h3>
+                    <p class="text-slate-600 text-center">
+                        Support for search & rescue, disaster assessment, and fire suppression efforts.
+                    </p>
+                </div>
+                <!-- Service 5 -->
+                <div class="service-card bg-white p-8 rounded-2xl shadow-lg flex flex-col items-center transition-transform hover:scale-105 duration-300">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-building"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">Construction & Mapping</h3>
+                    <p class="text-slate-600 text-center">
+                        Site surveys, progress monitoring, and high-precision 3D mapping.
+                    </p>
+                </div>
+                <!-- Service 6 -->
+                <div class="service-card bg-white p-8 rounded-2xl shadow-lg flex flex-col items-center transition-transform hover:scale-105 duration-300">
+                    <div class="text-indigo-600 text-6xl mb-6"><i class="fas fa-film"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-slate-700">Cinematic & Media</h3>
+                    <p class="text-slate-600 text-center">
+                        Stunning aerial cinematography for films, events, and marketing campaigns.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-24 bg-white animate-on-scroll relative">
+        <svg class="animated-drone-svg bottom-right" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 0L60 30L100 20L70 50L100 80L60 70L50 100L40 70L0 80L30 50L0 20L40 30L50 0Z" fill="#a5b4fc"/>
+            <circle cx="50" cy="50" r="10" fill="#6366f1"/>
+            <rect x="48" y="10" width="4" height="20" rx="2" fill="#6366f1"/>
+            <rect x="48" y="70" width="4" height="20" rx="2" fill="#6366f1"/>
+            <rect x="10" y="48" width="20" height="4" rx="2" fill="#6366f1"/>
+            <rect x="70" y="48" width="20" height="4" rx="2" fill="#6366f1"/>
+        </svg>
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-6 text-slate-800">Our Latest Insights & Blog Posts</h2>
+            <p class="text-xl text-slate-600 mb-16 max-w-3xl mx-auto">
+                Stay updated with the latest trends, news, and expert opinions from the world of drone technology.
+            </p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Blog Post 1 -->
+                <div class="blog-card">
+                    <img src="https://placehold.co/600x200/d1e9f7/1e293b?text=Drone+Delivery" alt="Drone Delivery">
+                    <div class="blog-card-content">
+                        <p class="text-sm text-slate-500 mb-2">October 26, 2023</p>
+                        <h3 class="text-xl">The Future of Drone Delivery: What to Expect</h3>
+                        <p>Discover how drones are set to transform logistics and last-mile delivery, bringing convenience to your doorstep.</p>
+                        <a href="#">Read More <i class="fas fa-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+                <!-- Blog Post 2 -->
+                <div class="blog-card">
+                    <img src="https://placehold.co/600x200/c7e2f2/1e293b?text=Agriculture+Drones" alt="Agriculture Drones">
+                    <div class="blog-card-content">
+                        <p class="text-sm text-slate-500 mb-2">October 19, 2023</p>
+                        <h3 class="text-xl">5 Ways Drones are Revolutionizing Agriculture</h3>
+                        <p>Learn how precision agriculture drones are boosting crop yields and efficiency for farmers worldwide.</p>
+                        <a href="#">Read More <i class="fas fa-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+                <!-- Blog Post 3 -->
+                <div class="blog-card">
+                    <img src="https://placehold.co/600x200/badcf0/1e293b?text=Drone+Photography" alt="Drone Photography">
+                    <div class="blog-card-content">
+                        <p class="text-sm text-slate-500 mb-2">October 12, 2023</p>
+                        <h3 class="text-xl">Drone Photography Tips for Beginners</h3>
+                        <p>Unleash your inner aerial photographer with our essential tips for capturing breathtaking drone shots.</p>
+                        <a href="#">Read More <i class="fas fa-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section (Startup News) -->
+    <section id="news" class="py-24 section-dark animate-on-scroll relative">
+        <svg class="animated-drone-svg middle-center" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 0L60 30L100 20L70 50L100 80L60 70L50 100L40 70L0 80L30 50L0 20L40 30L50 0Z" fill="#3b82f6"/>
+            <circle cx="50" cy="50" r="10" fill="#2563eb"/>
+            <rect x="48" y="10" width="4" height="20" rx="2" fill="#2563eb"/>
+            <rect x="48" y="70" width="4" height="20" rx="2" fill="#2563eb"/>
+            <rect x="10" y="48" width="20" height="4" rx="2" fill="#2563eb"/>
+            <rect x="70" y="48" width="20" height="4" rx="2" fill="#2563eb"/>
+        </svg>
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-6">Startup News & Announcements</h2>
+            <p class="text-xl mb-16 max-w-3xl mx-auto">
+                Stay informed about Sigma Drones' latest milestones, partnerships, and industry contributions.
+            </p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- News Article 1 -->
+                <div class="news-card bg-slate-800 text-white">
+                    <img src="https://placehold.co/600x200/1e293b/d1e9f7?text=Funding+Round" alt="Funding Round">
+                    <div class="news-card-content">
+                        <p class="text-sm text-slate-400 mb-2">September 30, 2023</p>
+                        <h3 class="text-xl text-white">Sigma Drones Secures $10 Million in Series A Funding</h3>
+                        <p class="text-slate-300">We're thrilled to announce the successful closure of our Series A funding round, accelerating our innovation pipeline.</p>
+                        <a href="#" class="text-indigo-400">Read More <i class="fas fa-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+                <!-- News Article 2 -->
+                <div class="news-card bg-slate-800 text-white">
+                    <img src="https://placehold.co/600x200/1e293b/c7e2f2?text=New+Partnership" alt="New Partnership">
+                    <div class="news-card-content">
+                        <p class="text-sm text-slate-400 mb-2">September 15, 2023</p>
+                        <h3 class="text-xl text-white">Partnership Announcement: Sigma Drones & Global Logistics Co.</h3>
+                        <p class="text-slate-300">Our new collaboration aims to revolutionize last-mile delivery solutions across key urban centers.</p>
+                        <a href="#" class="text-indigo-400">Read More <i class="fas fa-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+                <!-- News Article 3 -->
+                <div class="news-card bg-slate-800 text-white">
+                    <img src="https://placehold.co/600x200/1e293b/badcf0?text=Prototype+Showcase" alt="Prototype Showcase">
+                    <div class="news-card-content">
+                        <p class="text-sm text-slate-400 mb-2">August 28, 2023</p>
+                        <h3 class="text-xl text-white">Innovation Showcase: Our Latest Drone Prototypes</h3>
+                        <p class="text-slate-300">A sneak peek into the cutting-edge technology and design behind our upcoming drone models.</p>
+                        <a href="#" class="text-indigo-400">Read More <i class="fas fa-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats py-24 bg-indigo-700 text-white animate-on-scroll">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-16">Sigma Drones by the Numbers</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div class="counter-box">
+                    <div class="text-6xl font-extrabold mb-2 text-indigo-300" data-target="2500+">0</div>
+                    <p class="text-xl text-indigo-100">Successful Missions</p>
+                </div>
+                <div class="counter-box">
+                    <div class="text-6xl font-extrabold mb-2 text-indigo-300" data-target="150+">0</div>
+                    <p class="text-xl text-indigo-100">Happy Clients</p>
+                </div>
+                <div class="counter-box">
+                    <div class="text-6xl font-extrabold mb-2 text-indigo-300" data-target="50000+">0</div>
+                    <p class="text-xl text-indigo-100">Flight Hours</p>
+                </div>
+                <div class="counter-box">
+                    <div class="text-6xl font-extrabold mb-2 text-indigo-300" data-target="100%">0</div>
+                    <p class="text-xl text-indigo-100">Safety Record</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-24 bg-white animate-on-scroll">
+        <div class="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-12">
+            <div class="lg:w-1/2">
+                <img src="https://placehold.co/600x400/e0f2f7/1e293b?text=About+Us+Image" alt="About Us" class="rounded-2xl shadow-xl w-full h-auto object-cover">
+            </div>
+            <div class="lg:w-1/2 text-left">
+                <h2 class="text-5xl font-bold mb-6 text-slate-800">Pioneering the Future of Aerial Technology</h2>
+                <p class="text-xl text-slate-600 mb-6">
+                    At Sigma Drones, we are passionate about pushing the boundaries of what's possible with Unmanned Aerial Vehicles (UAVs). Founded by a team of aerospace engineers and AI specialists, we are committed to delivering innovative, reliable, and safe drone solutions for a diverse range of applications.
+                </p>
+                <p class="text-xl text-slate-600 mb-6">
+                    Our mission is to empower businesses and individuals with aerial insights and capabilities that transform industries, enhance public safety, and open new avenues for discovery. We believe in continuous innovation and customer-centric design.
+                </p>
+                <a href="#contact" class="btn-primary bg-indigo-600 text-white px-8 py-3 rounded-full text-lg font-semibold inline-block">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-slate-100 animate-on-scroll">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-6 text-slate-800">Get in Touch with Sigma Drones</h2>
+            <p class="text-xl text-slate-600 mb-12 max-w-3xl mx-auto">
+                Have a project in mind or just want to chat about drones? We'd love to hear from you!
+            </p>
+
+            <div class="max-w-2xl mx-auto bg-white p-10 rounded-2xl shadow-xl text-left">
+                <form action="#" method="POST" class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-lg font-medium text-slate-700 mb-2">Name</label>
+                        <input type="text" id="name" name="name" class="w-full px-5 py-3 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200" placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-lg font-medium text-slate-700 mb-2">Email</label>
+                        <input type="email" id="email" name="email" class="w-full px-5 py-3 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200" placeholder="your.email@example.com">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-lg font-medium text-slate-700 mb-2">Message</label>
+                        <textarea id="message" name="message" rows="6" class="w-full px-5 py-3 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200" placeholder="Tell us about your project or query..."></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn-primary bg-indigo-600 text-white px-10 py-4 rounded-full text-xl font-semibold">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-12 rounded-t-xl">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="text-3xl font-bold tracking-tight flex items-center justify-center md:justify-start">
+                        <i class="fas fa-drone text-4xl mr-3 text-indigo-400"></i> Sigma Drones
+                    </a>
+                    <p class="text-slate-400 mt-4 max-w-sm mx-auto md:mx-0">
+                        Advanced UAV Solutions for a Smarter Future.
+                    </p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-slate-400 hover:text-indigo-400 transition-colors duration-300 text-2xl">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-indigo-400 transition-colors duration-300 text-2xl">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-indigo-400 transition-colors duration-300 text-2xl">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-indigo-400 transition-colors duration-300 text-2xl">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-slate-700 pt-8">
+                <p class="text-slate-400">&copy; 2023 Sigma Drones. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- OrbitControls for camera interaction -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+        // === Three.js Drone Animation ===
+        window.onload = function() {
+            const container = document.getElementById('drone-animation-container');
+            if (!container) {
+                console.error('Drone animation container not found!');
+                return;
+            }
+
+            let scene, camera, renderer, drone, propeller1, propeller2, propeller3, propeller4, controls;
+            let targetRotationX = 0; // For mouse control
+            let targetRotationY = 0;
+            let currentRotationX = 0;
+            let currentRotationY = 0;
+            const rotationSpeed = 0.05;
+
+            // Initialize Three.js scene
+            function init() {
+                // Scene
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color(0xdbeafe); // Light blue background for the scene
+
+                // Camera
+                camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                camera.position.set(0, 5, 15); // Adjust camera position for better view
+
+                // Renderer
+                renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // Enable alpha for transparent background
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                container.appendChild(renderer.domElement);
+
+                // OrbitControls for interactive camera
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true; // Smooth camera movement
+                controls.dampingFactor = 0.05;
+                controls.screenSpacePanning = false;
+                controls.minDistance = 10;
+                controls.maxDistance = 50;
+                controls.maxPolarAngle = Math.PI / 2; // Prevent camera from going below ground
+
+                // Lights
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); // Soft ambient light
+                scene.add(ambientLight);
+
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6); // Directional light for shadows
+                directionalLight.position.set(5, 10, 7);
+                directionalLight.castShadow = true;
+                scene.add(directionalLight);
+
+                // Ground Plane (simple)
+                const planeGeometry = new THREE.PlaneGeometry(100, 100);
+                const planeMaterial = new THREE.MeshLambertMaterial({ color: 0xcfd8dc, side: THREE.DoubleSide }); // Light gray
+                const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+                plane.rotation.x = -Math.PI / 2;
+                plane.position.y = -2; // Position slightly below the drone
+                plane.receiveShadow = true;
+                scene.add(plane);
+
+
+                // Create Drone Model
+                createDrone();
+
+                // Handle window resize
+                window.addEventListener('resize', onWindowResize, false);
+
+                // Mouse events for custom rotation (if OrbitControls were not used, or for additional rotation)
+                // document.addEventListener('mousemove', onDocumentMouseMove, false);
+
+                animate();
+            }
+
+            // Function to create the drone model
+            function createDrone() {
+                // Drone Body (Main cuboid)
+                const bodyGeometry = new THREE.BoxGeometry(4, 1, 2);
+                const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0x4f46e5 }); // Indigo
+                drone = new THREE.Mesh(bodyGeometry, bodyMaterial);
+                drone.castShadow = true;
+                scene.add(drone);
+
+                // Propeller Arms (thin cylinders/boxes)
+                const armMaterial = new THREE.MeshLambertMaterial({ color: 0x334155 }); // Dark slate
+                const armGeometry = new THREE.BoxGeometry(0.5, 0.5, 5); // Longer arms
+                const arm1 = new THREE.Mesh(armGeometry, armMaterial);
+                arm1.position.set(0, 0, 0); // Will be child of drone, positioned relative
+                drone.add(arm1);
+
+                // Create individual propellers (simple boxes)
+                const propellerGeometry = new THREE.BoxGeometry(0.2, 0.05, 1.5);
+                const propellerMaterial = new THREE.MeshLambertMaterial({ color: 0x94a3b8 }); // Gray
+
+                // Propeller 1 (Front Right)
+                propeller1 = new THREE.Mesh(propellerGeometry, propellerMaterial);
+                propeller1.position.set(2, 0.7, 2.5); // Position relative to arm end
+                drone.add(propeller1);
+
+                // Propeller 2 (Front Left)
+                propeller2 = new THREE.Mesh(propellerGeometry, propellerMaterial);
+                propeller2.position.set(-2, 0.7, 2.5);
+                drone.add(propeller2);
+
+                // Propeller 3 (Back Right)
+                propeller3 = new THREE.Mesh(propellerGeometry, propellerMaterial);
+                propeller3.position.set(2, 0.7, -2.5);
+                drone.add(propeller3);
+
+                // Propeller 4 (Back Left)
+                propeller4 = new THREE.Mesh(propellerGeometry, propellerMaterial);
+                propeller4.position.set(-2, 0.7, -2.5);
+                drone.add(propeller4);
+            }
+
+            // Handle window resize
+            function onWindowResize() {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            }
+
+            // Mouse move handler for custom rotation (if OrbitControls were not used)
+            /*
+            function onDocumentMouseMove(event) {
+                targetRotationY = (event.clientX / window.innerWidth) * 2 * Math.PI - Math.PI;
+                targetRotationX = (event.clientY / window.innerHeight) * 2 * Math.PI - Math.PI;
+            }
+            */
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Rotate propellers
+                propeller1.rotation.y += 0.5;
+                propeller2.rotation.y += 0.5;
+                propeller3.rotation.y += 0.5;
+                propeller4.rotation.y += 0.5;
+
+                // Simple drone hover animation (up and down)
+                drone.position.y = Math.sin(Date.now() * 0.001) * 0.5; // Slight up-down motion
+
+                // Update controls if using OrbitControls
+                controls.update();
+
+                // Apply custom rotation (if not using OrbitControls heavily)
+                // currentRotationY += (targetRotationY - currentRotationY) * rotationSpeed;
+                // currentRotationX += (targetRotationX - currentRotationX) * rotationSpeed;
+                // drone.rotation.y = currentRotationY;
+                // drone.rotation.x = currentRotationX;
+
+
+                renderer.render(scene, camera);
+            }
+
+            init(); // Start the Three.js scene
+        };
+
+
+        // === General Website Animations & Logic ===
+
+        // Function for counter animation
+        const animateCounters = () => {
+            document.querySelectorAll('.counter-box [data-target]').forEach(counter => {
+                const target = counter.dataset.target;
+                const number = parseFloat(target.replace(/[^0-9.]/g, '')); // Extract number
+                let current = 0;
+                const duration = 2000; // 2 seconds
+                const increment = number / (duration / 30); // Calculate increment per 30ms
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= number) {
+                        counter.textContent = target; // Ensure final target value is set
+                        clearInterval(timer);
+                    } else {
+                        // Keep original suffix if any (e.g., '+', '%')
+                        const suffix = target.replace(/[\d.]/g, '');
+                        counter.textContent = Math.floor(current) + suffix;
+                    }
+                }, 30);
+            });
+        };
+
+        // Intersection Observer for scroll animations
+        const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the element is visible
+        };
+
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Special case for stats section to trigger counter animation only once
+                    if (entry.target.classList.contains('stats')) {
+                        animateCounters();
+                    }
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        };
+
+        const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+        animateOnScrollElements.forEach(el => {
+            scrollObserver.observe(el);
+        });
+
+        // Add a class to header on scroll for subtle style change
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-lg', 'bg-white'); // Deeper shadow and solid white
+                header.classList.remove('shadow-sm', 'bg-transparent');
+            } else {
+                header.classList.remove('shadow-lg', 'bg-white');
+                header.classList.add('shadow-sm', 'bg-transparent'); // Back to original
+            }
+        });
+
+    </script>
+</body>
+</html>

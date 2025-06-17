@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Tech - Clean Innovation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid #e5e7eb;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #111827;
+            letter-spacing: -0.02em;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #6b7280;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #111827;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 140px 0 100px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+            animation: float 15s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-20px, -20px) rotate(5deg); }
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #111827;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #3b82f6;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            animation: fadeInUp 1s ease-out 0.4s both;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.2);
+        }
+        
+        .hero-cta:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Main Content */
+        main {
+            padding: 100px 0;
+        }
+        
+        .section {
+            margin-bottom: 120px;
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .section-description {
+            font-size: 1.1rem;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        /* Article Grid */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #f3f4f6;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: #e5e7eb;
+        }
+        
+        .article-image {
+            height: 200px;
+            background: linear-gradient(135deg, #ddd6fe 0%, #c7d2fe 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #6366f1;
+        }
+        
+        .article-content {
+            padding: 2rem;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background: #eff6ff;
+            color: #3b82f6;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+        
+        .article-excerpt {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        
+        .read-more {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .read-more:hover {
+            color: #2563eb;
+            transform: translateX(2px);
+        }
+        
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+        
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-description {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        /* Stats Section */
+        .stats {
+            background: #f8fafc;
+            padding: 4rem 0;
+            margin: 4rem 0;
+            border-radius: 24px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        /* Newsletter Section */
+        .newsletter {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            padding: 4rem 2rem;
+            border-radius: 24px;
+            text-align: center;
+            color: white;
+        }
+        
+        .newsletter h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .newsletter-button {
+            background: #1f2937;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .newsletter-button:hover {
+            background: #111827;
+            transform: translateY(-1px);
+        }
+        
+        /* Footer */
+        footer {
+            background: #111827;
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f9fafb;
+        }
+        
+        .footer-section a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a:hover {
+            color: #3b82f6;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Smooth transitions */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Nexus Tech</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#insights">Insights</a></li>
+                <li><a href="#solutions">Solutions</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Clean Technology for a Better Tomorrow</h1>
+                <p class="hero-subtitle">Discover groundbreaking innovations, research insights, and technology solutions that are shaping the future of our digital world.</p>
+                <a href="#insights" class="hero-cta">
+                    Explore Insights
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <section class="section container" id="insights">
+            <div class="section-header">
+                <h2 class="section-title">Latest Technology Insights</h2>
+                <p class="section-description">Stay informed with our curated selection of breakthrough technologies and industry developments.</p>
+            </div>
+            
+            <div class="articles-grid">
+                <article class="article-card fade-in">
+                    <div class="article-image">🤖</div>
+                    <div class="article-content">
+                        <span class="article-category">Artificial Intelligence</span>
+                        <h3 class="article-title">The Next Evolution of Machine Learning</h3>
+                        <p class="article-excerpt">Exploring how advanced neural networks are revolutionizing data processing and decision-making across industries.</p>
+                        <div class="article-meta">
+                            <span>8 min read • 2 hours ago</span>
+                            <a href="#" class="read-more">Read more →</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card fade-in">
+                    <div class="article-image">⚡</div>
+                    <div class="article-content">
+                        <span class="article-category">Innovation</span>
+                        <h3 class="article-title">Sustainable Tech: Green Computing Solutions</h3>
+                        <p class="article-excerpt">How companies are reducing their carbon footprint through innovative energy-efficient computing technologies.</p>
+                        <div class="article-meta">
+                            <span>6 min read • 5 hours ago</span>
+                            <a href="#" class="read-more">Read more →</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card fade-in">
+                    <div class="article-image">🔒</div>
+                    <div class="article-content">
+                        <span class="article-category">Security</span>
+                        <h3 class="article-title">Zero-Trust Architecture: The Future of Cybersecurity</h3>
+                        <p class="article-excerpt">Understanding the principles and implementation strategies of zero-trust security frameworks in modern enterprises.</p>
+                        <div class="article-meta">
+                            <span>12 min read • 1 day ago</span>
+                            <a href="#" class="read-more">Read more →</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card fade-in">
+                    <div class="article-image">🌐</div>
+                    <div class="article-content">
+                        <span class="article-category">Web Technology</span>
+                        <h3 class="article-title">Edge Computing: Bringing Processing Closer</h3>
+                        <p class="article-excerpt">The rise of edge computing and its impact on reducing latency and improving user experiences globally.</p>
+                        <div class="article-meta">
+                            <span>10 min read • 1 day ago</span>
+                            <a href="#" class="read-more">Read more →</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card fade-in">
+                    <div class="article-image">💡</div>
+                    <div class="article-content">
+                        <span class="article-category">Research</span>
+                        <h3 class="article-title">Quantum Computing: From Theory to Practice</h3>
+                        <p class="article-excerpt">Recent breakthroughs in quantum computing and their potential applications in solving complex real-world problems.</p>
+                        <div class="article-meta">
+                            <span>15 min read • 2 days ago</span>
+                            <a href="#" class="read-more">Read more →</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card fade-in">
+                    <div class="article-image">📊</div>
+                    <div class="article-content">
+                        <span class="article-category">Data Science</span>
+                        <h3 class="article-title">Big Data Analytics: Transforming Business Intelligence</h3>
+                        <p class="article-excerpt">How modern data analytics platforms are enabling businesses to make smarter, data-driven decisions.</p>
+                        <div class="article-meta">
+                            <span>9 min read • 3 days ago</span>
+                            <a href="#" class="read-more">Read more →</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+        
+        <section class="section container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose Nexus Tech</h2>
+                <p class="section-description">We deliver cutting-edge technology solutions with a focus on innovation, reliability, and sustainable growth.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Innovation First</h3>
+                    <p class="feature-description">Leading-edge research and development that pushes the boundaries of what's possible in technology.</p>
+                </div>
+                
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">🔧</div>
+                    <h3 class="feature-title">Enterprise Solutions</h3>
+                    <p class="feature-description">Scalable technology solutions designed to meet the complex needs of modern enterprises.</p>
+                </div>
+                
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">🌱</div>
+                    <h3 class="feature-title">Sustainable Tech</h3>
+                    <p class="feature-description">Environmentally conscious technology solutions that contribute to a sustainable future.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="stats container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">150+</span>
+                    <div class="stat-label">Technology Projects</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50K+</span>
+                    <div class="stat-label">Lines of Code</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">99.9%</span>
+                    <div class="stat-label">Uptime Guarantee</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <div class="stat-label">Expert Support</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="container">
+            <div class="newsletter">
+                <h3>Stay Updated</h3>
+                <p>Get the latest technology insights and innovations delivered directly to your inbox.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email address" class="newsletter-input">
+                    <button type="submit" class="newsletter-button">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Nexus Tech</h4>
+                    <p style="color: #9ca3af; margin-bottom: 1rem;">Pioneering clean technology solutions for a better digital future.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Solutions</h4>
+                    <a href="#">AI & Machine Learning</a>
+                    <a href="#">Cloud Computing</a>
+                    <a href="#">Cybersecurity</a>
+                    <a href="#">Data Analytics</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <a href="#">Research Papers</a>
+                    <a href="#">Case Studies</a>
+                    <a href="#">Documentation</a>
+                    <a href="#">Blog</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Nexus Tech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.borderBottomColor = '#d1d5db';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.borderBottomColor = '#e5e7eb';
+            }
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Newsletter form handling
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('.newsletter-input').value;
+            if (email) {
+                alert('Thank you for subscribing!');
+                this.querySelector('.newsletter-input').value = '';
+            }
+        });
+
+        // Counter animation
+        const animateCounters = () => {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = counter.textContent;
+                const number = parseInt(target.replace(/[^\d]/g, ''));
+                let current = 0;
+                const increment = number / 60;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= number) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current) + target.replace(/\d/g, '').charAt(0);
+                    }
+                }, 30);
+            });
+        };
+
+        // Trigger counter animation when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+    </script>
+</body>
+</html>
